@@ -1,0 +1,1766 @@
+/* ========================================
+   未来体験パーク 独自スタイル
+   Webflow の CSS の後に読み込み、変数を上書きする
+   ======================================== */
+
+:root {
+  /* --- 主役：ネイビー（元 #114049） --- */
+  --_colors---core-accent-color--accent-primary: #16324A;
+  --_colors---text-color--text-accent-on-primary: #16324A;
+  --_colors---text-color--text-accent-on-primary-hover: #16324A99;
+  --_colors---core-color-tint--accent-primary-a10: #16324A1a;
+  --_colors---core-color-tint--accent-primary-a20: #16324A33;
+  --_colors---core-color-tint--accent-primary-a30: #16324A4d;
+  --_colors---core-color-tint--accent-primary-a40: #16324A66;
+  --_colors---core-color-tint--accent-primary-a50: #16324A80;
+  --_colors---core-color-tint--accent-primary-a60: #16324A99;
+  --_colors---core-color-tint--accent-primary-a70: #16324Ab3;
+  --_colors---core-color-tint--accent-primary-a80: #16324Acc;
+  --_colors---core-color-tint--accent-primary-a90: #16324Ae6;
+
+  /* --- 主役の hover（元 #1d6b7b） --- */
+  --_colors---core-accent-color--accent-primary-hover: #24506F;
+
+  /* --- 差し色：ゴールド（元 #a8eaf6） --- */
+  --_colors---core-accent-color--accent-secondary: #F2A93B;
+  --_colors---core-color-tint--accent-secondary-a10: #F2A93B1a;
+  --_colors---core-color-tint--accent-secondary-a20: #F2A93B33;
+  --_colors---core-color-tint--accent-secondary-a30: #F2A93B4d;
+  --_colors---core-color-tint--accent-secondary-a40: #F2A93B66;
+  --_colors---core-color-tint--accent-secondary-a50: #F2A93B80;
+  --_colors---core-color-tint--accent-secondary-a60: #F2A93B99;
+  --_colors---core-color-tint--accent-secondary-a70: #F2A93Bb3;
+  --_colors---core-color-tint--accent-secondary-a80: #F2A93Bcc;
+  --_colors---core-color-tint--accent-secondary-a90: #F2A93Be6;
+
+  /* --- 差し色の hover（元 #dff7fc） --- */
+  --_colors---core-accent-color--accent-secondary-hover: #F6C26B;
+
+  /* --- 反転背景の上の文字色（元 #66959d） --- */
+  --_colors---text-color--text-accent-on-inverse: #8FA9C0;
+  --_colors---text-color--text-accent-on-inverse-hover: #8FA9C099;
+
+  /* --- 基本色：パール（元 #fff） --- */
+  --_colors---core-neutral-color--neutral-primary: #F8F7F4;
+  --_colors---core-color-tint--neutral-primary-a10: #F8F7F41a;
+  --_colors---core-color-tint--neutral-primary-a20: #F8F7F433;
+  --_colors---core-color-tint--neutral-primary-a30: #F8F7F44d;
+  --_colors---core-color-tint--neutral-primary-a40: #F8F7F466;
+  --_colors---core-color-tint--neutral-primary-a50: #F8F7F480;
+  --_colors---core-color-tint--neutral-primary-a60: #F8F7F499;
+  --_colors---core-color-tint--neutral-primary-a70: #F8F7F4b3;
+  --_colors---core-color-tint--neutral-primary-a80: #F8F7F4cc;
+  --_colors---core-color-tint--neutral-primary-a90: #F8F7F4e6;
+
+  /* --- 副の面（元 #f3f4f4） --- */
+  --_colors---core-neutral-color--neutral-secondary: #EEF1F2;
+
+  /* 反転背景 #090714 は Webflow の値のまま */
+
+  /* --- ティール（新規） --- */
+  --brand-teal: #2A9D8F;
+  --brand-teal-deep: #1F7A70;
+
+  /* --- フォント --- */
+  --font-ja: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  --_typography---font--body-font: var(--font-ja);
+  --_typography---font--button-font: var(--font-ja);
+  /* 英字見出しは Space Grotesk、和文は Noto Sans JP 以降で表示 */
+  --_typography---font--heading-font: "Space Grotesk", var(--font-ja);
+
+  /* --- 見出しの太さ（h0〜h3 ＝ heading_hero / primary / secondary / tertiary）---
+     Webflow の元の値は h0〜h2 が 300、h3 が 400。ここを 300 にすれば元に戻る */
+  --heading-weight: 400;
+  --_typography---h0-heading--h0-weight: var(--heading-weight);
+  --_typography---h1-heading--h1-weight: var(--heading-weight);
+  --_typography---h2-heading--h2-weight: var(--heading-weight);
+  --_typography---h3-heading--h3-weight: var(--heading-weight);
+}
+
+/* 動きを減らす設定の人には、アニメーションと遷移を止める */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* --- 共通ヘッダー・フッターのテキストロゴ ---
+   パーク名が長くなっても1行に収め、はみ出す分は「…」にする */
+.nav_left,
+.nav_logo {
+  min-width: 0;
+}
+
+.nav_logo-text,
+.footer_logo-text {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-family: var(--_typography---font--heading-font);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+}
+
+.nav_logo-text {
+  font-size: clamp(1rem, 4vw, 1.25rem);
+}
+
+.footer_logo-text {
+  font-size: clamp(1.5rem, 7vw, 3rem);
+  font-weight: 300;
+}
+
+.footer_note {
+  font-size: var(--_typography---text-sm--sm-text-size);
+}
+
+/* フッターのロゴ：下線なし、パール色 */
+.footer_logo {
+  text-decoration: none;
+}
+
+.footer_logo-text {
+  color: var(--_colors---core-neutral-color--neutral-primary);
+}
+
+/* --- 見出しの折り返し ---
+   文節の途中で切らない（keep-all）。区切りたい位置は HTML の <wbr>・句読点で示す。
+   行の長さはそろえる（balance）。入りきらないときだけ、どこでも折り返す（anywhere） */
+.heading_hero,
+.heading_primary,
+.heading_secondary,
+.heading_tertiary,
+.heading_small,
+.hero-full_heading,
+.hero-full_catch {
+  text-wrap: balance;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+/* --- HeroFull（下層共通の全面HERO）---
+   ヘッダーの下に置く。16:9 の画像を中央でトリミングし、濃紺のオーバーレイで文字を読みやすくする。
+   高さ：PC 約560px／767px 以下 約460px。オーバーレイ：PC は左から／スマホは下から。
+   .section の外に置くので、head の隠す指定の対象にならない（最初から表示） */
+.hero-full {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 560px;
+  overflow: hidden;
+  background-color: var(--_colors---background-color--bg-accent-primary);
+  color: var(--_colors---core-neutral-color--neutral-primary);
+}
+
+.hero-full_media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero-full_overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    var(--_colors---core-color-tint--accent-primary-a90) 0%,
+    var(--_colors---core-color-tint--accent-primary-a60) 40%,
+    transparent 75%
+  );
+}
+
+.hero-full_content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-full_heading {
+  margin: 0;
+  font-weight: var(--heading-weight);
+}
+
+.hero-full_kind {
+  display: block;
+  margin-bottom: var(--_sizes---spacing--0-5x);
+  font-family: var(--font-ja);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+
+.hero-full_title {
+  display: block;
+  font-family: var(--_typography---font--heading-font);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  overflow-wrap: anywhere;
+}
+
+.hero-full_catch {
+  max-width: 32em;
+  margin: var(--_sizes---spacing--1x) 0 0;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 1.6;
+}
+
+@media screen and (max-width: 767px) {
+  .hero-full {
+    align-items: flex-end;
+    height: 460px;
+    padding-bottom: var(--_sizes---spacing--2x);
+  }
+
+  .hero-full_overlay {
+    background: linear-gradient(
+      to top,
+      var(--_colors---core-color-tint--accent-primary-a90) 0%,
+      var(--_colors---core-color-tint--accent-primary-a60) 45%,
+      transparent 80%
+    );
+  }
+}
+
+/* --- HeroFull の TOP 版（is-top）：背景動画・見出し＋リード＋CTA ---
+   高さ：PC 640px／767px 以下は通常の HeroFull と同じ 460px */
+@media screen and (min-width: 768px) {
+  .hero-full.is-top {
+    height: 640px;
+  }
+}
+
+.hero-full_heading.is-top {
+  font-family: var(--font-ja);
+  font-size: clamp(1.75rem, 4.5vw, 3.5rem);
+  line-height: 1.3;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.hero-full_actions {
+  margin-top: var(--_sizes---spacing--1-5x);
+}
+
+/* 文字だけの、CSS のフェードイン（動きを減らす設定では無効） */
+.hero-full.is-top .hero-full_content {
+  animation: hero-full-fade-in 0.9s ease-out both;
+}
+
+@keyframes hero-full-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-full.is-top .hero-full_content {
+    animation: none;
+  }
+}
+
+/* 背景動画の一時停止／再開ボタン（48px） */
+.hero-full_toggle {
+  position: absolute;
+  right: var(--_sizes---spacing--1x);
+  bottom: var(--_sizes---spacing--1x);
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 1px solid var(--_colors---core-neutral-color--neutral-primary);
+  border-radius: 50%;
+  background-color: var(--_colors---core-color-tint--accent-primary-a60);
+  color: var(--_colors---core-neutral-color--neutral-primary);
+  cursor: pointer;
+}
+
+.hero-full_toggle:hover {
+  background-color: var(--_colors---core-accent-color--accent-primary);
+}
+
+.hero-full_toggle:focus-visible {
+  outline: 3px solid var(--_colors---core-accent-color--accent-secondary);
+  outline-offset: 3px;
+}
+
+.hero-full_toggle[hidden] {
+  display: none;
+}
+
+.hero-full_toggle-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* aria-pressed="true"（停止中）は再生アイコン、false（再生中）は一時停止アイコン */
+.hero-full_toggle[aria-pressed="true"] .hero-full_toggle-icon.is-pause,
+.hero-full_toggle[aria-pressed="false"] .hero-full_toggle-icon.is-play {
+  display: none;
+}
+
+/* --- FeatureRow（画像と文字の横並び）---
+   768px 以上で左右2列。is-reverse で画像を右に。767px 以下は常に画像が上 */
+.feature-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--_sizes---spacing--1-5x);
+  align-items: center;
+}
+
+.feature-row + .feature-row {
+  margin-top: var(--_sizes---spacing--4x);
+}
+
+.feature-row_body > p {
+  margin-bottom: var(--_sizes---spacing--1x);
+}
+
+@media screen and (min-width: 768px) {
+  .feature-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--_sizes---spacing--3x);
+  }
+
+  .feature-row.is-reverse .feature-row_media {
+    order: 2;
+  }
+
+  /* is-stacked：どの幅でも縦積み（横長の画像の下に文字） */
+  .feature-row.is-stacked {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* is-stacked の画像は横長（約2.3:1）に表示する */
+.feature-row.is-stacked .feature-row_media > [class*="image-ratio"] {
+  aspect-ratio: 23 / 10;
+}
+
+/* 画像を 16:9 のまま全幅で見せる（SHOWS の代表ショー） */
+.feature-row.is-stacked .feature-row_media.is-16x9 > [class*="image-ratio"] {
+  aspect-ratio: 16 / 9;
+}
+
+/* is-small：画像を小さめ（2:3 の比率の2列）。画像が無いときは文字だけの1列 */
+@media screen and (min-width: 768px) {
+  .feature-row.is-small {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  }
+
+  .feature-row.is-small:not(:has(> .feature-row_media)) {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 48rem;
+  }
+}
+
+/* --- InfoList（項目名＋値の一覧）---
+   スマホでも「項目名 約110px＋値」の2列。値は折り返す */
+.info-list {
+  margin: 0;
+  border-top: 1px solid var(--_colors---border-color--border-primary);
+  font-size: var(--_typography---text-sm--sm-text-size);
+  line-height: 1.6;
+}
+
+.info-list_row {
+  display: grid;
+  grid-template-columns: 8em minmax(0, 1fr); /* 10/28 文字を大きくしたので、項目名（設備・サービスなど）が1行に入る幅に */
+  gap: var(--_sizes---spacing--1x);
+  padding: var(--_sizes---spacing--0-75x) 0;
+  border-bottom: 1px solid var(--_colors---border-color--border-primary);
+}
+
+.info-list_term {
+  font-weight: 500;
+}
+
+.info-list_value {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* --- CtaBand の注記（予約不可など） --- */
+.cta-band_note {
+  margin: var(--_sizes---spacing--1-5x) 0 0;
+  font-size: var(--_typography---text-sm--sm-text-size);
+  opacity: 0.85;
+}
+
+/* --- CtaBand：767px 以下はボタンを縦並び・全幅に --- */
+@media screen and (max-width: 767px) {
+  .cta-band .button-group {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    row-gap: var(--_sizes---spacing--0-75x);
+  }
+
+  .cta-band .button {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* --- サブページ共通：カード ---
+   feature-card：画像つき（旗艦など）／text-card：文字だけ
+   リンクのカードは、カード全体が1つのリンク。押す範囲は 48px 以上 */
+.feature-card,
+.text-card {
+  min-height: 48px;
+}
+
+.feature-card_image {
+  border-radius: 0;
+}
+
+/* 画像の比率を 16:10 にする（TOP の看板カード） */
+.feature-card_image.is-16x10 {
+  aspect-ratio: 16 / 10;
+}
+
+.feature-card_more {
+  margin-top: auto;
+  padding-top: var(--_sizes---spacing--0-5x);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: var(--_colors---core-accent-color--accent-secondary);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.35em;
+}
+
+/* --- よくある質問（details / summary）---
+   開閉はブラウザの標準機能。Enter / Space で開閉できる */
+.faq_list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--_sizes---spacing--0-75x);
+}
+
+.faq_item {
+  border-radius: var(--_sizes---card--card-radius);
+  background-color: var(--_colors---background-color--bg-secondary);
+}
+
+.faq_question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--_sizes---spacing--1x);
+  min-height: 48px;
+  padding: var(--_sizes---spacing--0-75x) var(--_sizes---spacing--1x);
+  border-radius: var(--_sizes---card--card-radius);
+  font-weight: 500;
+  list-style: none;
+  cursor: pointer;
+}
+
+.faq_question::-webkit-details-marker {
+  display: none;
+}
+
+.faq_question::after {
+  content: "+";
+  flex: none;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--_colors---core-accent-color--accent-primary);
+}
+
+.faq_item[open] > .faq_question::after {
+  content: "−";
+}
+
+.faq_question:focus-visible {
+  outline: 2px solid var(--_colors---core-accent-color--accent-primary);
+  outline-offset: 2px;
+}
+
+.faq_answer {
+  padding: 0 var(--_sizes---spacing--1x) var(--_sizes---spacing--1x);
+}
+
+/* --- 現在のページのリンク（ナビのメニュー5つだけ。モバイルのメニューも同じ）---
+   webflow.js が付ける .w--current と、[aria-current="page"] のどちらでも効く。
+   Webflow 側の背景色は消して、控えめなゴールドの下線にする */
+.nav_menu .nav_link.w--current,
+.nav_menu .nav_link[aria-current="page"] {
+  background-color: transparent;
+}
+
+.nav_menu .nav_link.w--current > div,
+.nav_menu .nav_link[aria-current="page"] > div {
+  text-decoration: underline;
+  text-decoration-color: var(--_colors---core-accent-color--accent-secondary);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.4em;
+}
+
+/* --- スマホのメニュー（Webflow の data-collapse="medium" に合わせて 991px 以下） --- */
+@media screen and (max-width: 991px) {
+  /* 開いたメニュー：ナビと同じネイビーの単色（後ろが透けない） */
+  .nav.is-accent-primary .nav_menu {
+    background-color: var(--_colors---background-color--bg-accent-primary);
+  }
+
+  /* メニューのリンク：パール色、1行の押す高さ 48px 以上 */
+  .nav.is-accent-primary .nav_link.on-accent-primary {
+    min-height: 48px;
+    color: var(--_colors---core-neutral-color--neutral-primary);
+  }
+
+  /* 三本線のボタン：押す範囲を 48px 以上に（線の見た目は変えない） */
+  .nav_container .nav_mobile-menu-button.w-nav-button {
+    display: flex;
+    min-width: 48px;
+    min-height: 48px;
+  }
+
+  /* 開いたときもボタンの線が見えるように、パール色のままにする */
+  .nav.is-accent-primary .nav_mobile-menu-button.w--open,
+  .nav.is-accent-primary .nav_mobile-menu-button.w--open:hover {
+    color: var(--_colors---core-neutral-color--neutral-primary);
+  }
+}
+
+/* ix3（GSAP）が動かないときの保険
+   js/custom.js が html に is-ix-fallback を付けたときだけ、
+   head のインライン <style> で隠している要素を表示する。
+   セレクタは head の指定と同じ範囲（index.html からそのまま写したもの）。
+   head 側の範囲が変わったら、ここも合わせる。 */
+@media not all and (prefers-reduced-motion: reduce) {
+  html.w-mod-js.is-ix-fallback:not(.w-mod-ix3) :is(.nav_container, :is(.section, .footer) :is(.header .icon:is(+ h1, + h2), .header .eyebrow_block, .header .breadcrumb-nav), :is(.section, .footer) :is(:is(h1,h2,h3,.heading_primary,.heading_secondary,.heading_tertiary,.heading_hero,.subheading,.header p,.eyebrow):not(:where(.card *,.card-link *,.content-block *,.content-block-link *,.rich-text *,li p))), :is(.section, .footer) :is(:where(.card:not(:where(.card *,.card-link *)),.content-block:not(:has(.content-block)):not(:where(.card *,.card-link *,.content-block-link *,.ix-content-block *,.grid-item-manual *)),.ix-content-block:not(:has(.ix-content-block)):not(:where(.card *,.card-link *,.content-block *,.content-block-link *,.w-tab-pane:not(.w--tab-active) *)),.content-block .content-block,.ix-content-block .ix-content-block,.ix-link-wrapper:has(.card-link),.ix-link-wrapper:has(.content-block-link),.footer ul),[class*="image-ratio"]:not(:where(.card *,.card-link *,.content-block *,.ix-content-block *,.content-block-link *,.avatar *,.ix-link-wrapper *)),.rich-text:not(:where(.card *,.content-block *,.ix-content-block *,.header *)),.grid-item-manual:not(:where(.card *,.content-block *,.ix-content-block *,.header > .grid-item-manual,.ix-link-wrapper *)):not(:has(.card,.form_block,.header,.grid-item-manual,.ix-content-block)),.list .list_item:not(:where(.card *,.card-link *,.content-block *,.ix-content-block *,.content-block-link *,.rich-text *,.list_item *)),.form_block:not(:where(.card *,.card-link *,.content-block *,.ix-content-block *,.content-block-link *)),.slider_arrow:not(:where(.card *,.card-link *)),.slider_nav:not(:where(.card *,.card-link *)),.w-tab-menu), :is(.section, .footer) :is(.ix-link-wrapper:not(:where([class*="card"] *,.content-block *)):not(:has([class*="card"],.card-link,.content-block-link)),[class*="group"]:not(:where(.card *,.card-link *,.content-block *,.content-block-link *)):not(:has(.ix-link-wrapper)),.logo:not(:where([class*="card"] *,[class*="marquee"] *,.w-tab-menu *)),.image_heading-inline,.marquee:not(:where(.card *,.card-link *)),.breadcrumb-nav:not(:where(.header *,.header))), :is(.section, .footer) :is(:is([class*="divider"],.divider):not([class*="content-block"]):not(:where([class*="card"] *,[class*="content-block"] *,.w-dropdown-list *)),.divider-vertical)) {
+    visibility: visible !important;
+  }
+}
+
+/* --- ユーティリティ：画像のトリミング位置（object-fit: cover の画像に付ける）---
+   object-position_top：上寄せ（夜空の演出など、画像の上に主題があるとき）
+   object-position_left_mobile：767px 以下だけ左寄せ（HERO の左側の人物を残す） */
+.object-position_top {
+  object-position: 50% 0%;
+}
+
+@media screen and (max-width: 767px) {
+  .object-position_left_mobile {
+    object-position: 5% 50%;
+  }
+}
+
+/* object-position_upper：やや上寄せ（PC で、画像の上の方にある主役を切らない。EXPERIENCES の HERO） */
+.object-position_upper {
+  object-position: 50% 22%;
+}
+
+/* object-position_right_mobile：767px 以下だけ右寄せ（TOP の HERO ポスターのタワーを残す） */
+@media screen and (max-width: 767px) {
+  .object-position_right_mobile {
+    object-position: 70% 50%;
+  }
+}
+
+/* ========================================
+   グローバルナビの固定（10/24 オーナー承認の仕様）
+   - 下層ページ：今の位置（HERO の上）のまま、スクロールしても上部に固定
+   - TOP（js/custom.js が html に is-top-page を付ける）：
+     最初はナビを隠し、右上のボタンだけを表示（PC は .nav_reveal-button、スマホは三本線）。
+     HERO の下端を過ぎたとき・ボタンを押したとき（.nav.is-shown）、
+     Tab でナビに入ったとき（:focus-within）にナビを表示する。
+   - custom.css は Webflow の CSS より先に読み込むので、.nav は2クラスで指定する
+   ======================================== */
+html {
+  scroll-padding-top: var(--nav-height, 80px);
+}
+
+.nav.is-accent-primary {
+  position: sticky;
+  top: 0;
+}
+
+/* TOP：HERO を画面いっぱいに（JS が動かないときは元の 640px／460px のまま） */
+html.is-top-page .hero-full.is-top {
+  height: 100vh;
+  height: 100svh;
+  min-height: 480px;
+}
+
+html.is-top-page .nav.is-accent-primary {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+}
+
+html.is-top-page .nav :is(.nav_left, .nav_center, .nav_right) {
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+html.is-top-page .nav.is-accent-primary:is(.is-shown, :focus-within) {
+  background-color: var(--_colors---background-color--bg-accent-primary);
+}
+
+html.is-top-page .nav:is(.is-shown, :focus-within) :is(.nav_left, .nav_center, .nav_right) {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+/* TOP の最初の画面でも、ロゴ（パーク名）だけは動画の上に表示する（10/24 オーナー指示）
+   明るい空の上でも読めるように、ナビが隠れている間だけ文字に薄い影を付ける */
+html.is-top-page .nav .nav_left {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+html.is-top-page .nav:not(.is-shown, :focus-within) .nav_logo-text {
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
+}
+
+html.is-top-page .nav:not(.is-shown, :focus-within) .nav_logo-image {
+  filter: drop-shadow(0 1px 6px rgba(0, 0, 0, 0.45));
+}
+
+/* PC の TOP だけに出すボタン（js/custom.js がナビの直後に作る） */
+.nav_reveal-button {
+  display: none;
+}
+
+@media screen and (min-width: 992px) {
+  html.is-top-page .nav_reveal-button {
+    position: fixed;
+    top: var(--_sizes---spacing--0-75x);
+    right: var(--_sizes---container--container-padding-horizontal);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: 1px solid var(--_colors---core-neutral-color--neutral-primary);
+    border-radius: 50%;
+    background-color: var(--_colors---core-color-tint--accent-primary-a60);
+    color: var(--_colors---core-neutral-color--neutral-primary);
+    cursor: pointer;
+  }
+
+  html.is-top-page .nav_reveal-button:hover {
+    background-color: var(--_colors---core-accent-color--accent-primary);
+  }
+
+  html.is-top-page .nav_reveal-button:focus-visible {
+    outline: 2px solid var(--_colors---core-neutral-color--neutral-primary);
+    outline-offset: 2px;
+  }
+
+  html.is-top-page .nav:is(.is-shown, :focus-within) + .nav_reveal-button {
+    display: none;
+  }
+}
+
+/* スマホの TOP：ナビが隠れている間、三本線のボタンに半透明の暗い丸を付ける */
+@media screen and (max-width: 991px) {
+  html.is-top-page .nav:not(.is-shown, :focus-within) .nav_mobile-menu-button.w-nav-button {
+    border: 1px solid var(--_colors---core-neutral-color--neutral-primary);
+    border-radius: 50%;
+    background-color: var(--_colors---core-color-tint--accent-primary-a60);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.is-top-page .nav.is-accent-primary,
+  html.is-top-page .nav :is(.nav_left, .nav_center, .nav_right) {
+    transition: none;
+  }
+}
+
+/* ========================================
+   ページごとのテーマ色（B-5 第2案・10/24 オーナー承認）と
+   HERO の差別化 第1段階（B-9・10/24 オーナー承認）
+   - <body class="is-page-〇〇"> でページの色を決める（TOP は付けない＝ブランドの基本色）
+   - 使う場所は HERO のラベル・見出しの下線・チップと、本文の eyebrow だけ。
+     ナビ・ボタン・フッター・CTA帯・写真のオーバーレイ（濃紺）は全ページ共通のまま
+   - --page-accent：濃紺の上で使う明るい色／--page-accent-deep：白・薄グレーの上の文字色
+     （どちらも単色どうしで 4.5:1 以上。写真を入れた後に PC・スマホで再確認する）
+   - 配置の切り替え（is-align-center／is-align-right／is-align-bottom）は、
+     最終HERO画像が決まってから .hero-full に付ける。今はどのページにも付けない
+   ======================================== */
+:root {
+  --page-accent: var(--_colors---core-accent-color--accent-secondary);
+  --page-accent-deep: var(--_colors---core-accent-color--accent-primary);
+}
+
+body.is-page-experiences { --page-accent: #6FE3FF; --page-accent-deep: #1B6E8C; }
+body.is-page-shows       { --page-accent: #C3A6FF; --page-accent-deep: #5B3E99; }
+body.is-page-hotel       { --page-accent: #E8CC8E; --page-accent-deep: #6B5428; }
+body.is-page-dining      { --page-accent: #FF9B73; --page-accent-deep: #A2462A; }
+body.is-page-shops       { --page-accent: #F4A3C4; --page-accent-deep: #9C3466; }
+body.is-page-plan        { --page-accent: #A6DB7E; --page-accent-deep: #3F6F22; }
+
+/* --- HERO：ページの種類のラベル（丸い札） --- */
+.hero-full_kind {
+  display: inline-block;
+  width: fit-content;
+  padding: 0.3em 0.9em;
+  border-radius: 999px;
+  background-color: var(--page-accent);
+  color: var(--_colors---core-accent-color--accent-primary);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  margin-bottom: var(--_sizes---spacing--1x);
+}
+
+/* --- HERO：英字見出しの下の短い線 --- */
+.hero-full_title::after {
+  content: "";
+  display: block;
+  width: 72px;
+  height: 4px;
+  margin-top: var(--_sizes---spacing--1x);
+  border-radius: 2px;
+  background-color: var(--page-accent);
+}
+
+/* --- HERO：情報チップ（押せない）。枠を付けず「● 文字」の形にして、ボタンに見せない --- */
+.hero-full_tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin: var(--_sizes---spacing--1-5x, 1.5rem) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hero-full_tag {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 1rem;
+  line-height: 1.5;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+}
+
+.hero-full_tag::before {
+  content: "";
+  flex: none;
+  width: 0.6em;
+  height: 0.6em;
+  border-radius: 50%;
+  background-color: var(--page-accent);
+}
+
+/* --- HERO：ページ内リンクのチップ（押せる）。塗り・矢印・高さ 48px --- */
+.hero-full_links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: var(--_sizes---spacing--1-5x, 1.5rem) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hero-full_link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  min-height: 48px;
+  padding: 0 1.2em;
+  border-radius: 999px;
+  background-color: var(--page-accent);
+  color: var(--_colors---core-accent-color--accent-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.hero-full_link::after {
+  content: "↓" / "";
+}
+
+.hero-full_link:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+}
+
+.hero-full_link:focus-visible {
+  outline: 2px solid var(--_colors---core-neutral-color--neutral-primary);
+  outline-offset: 2px;
+}
+
+@media screen and (max-width: 767px) {
+  .hero-full_tags {
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+}
+
+/* --- 本文の eyebrow：ページの濃い色と短い線（TOP は今のまま） ---
+   濃紺の CTA帯（.section.is-accent-primary）の上では、明るい色を使う */
+body[class*="is-page-"] .section .header .eyebrow {
+  color: var(--page-accent-deep);
+  font-weight: 600;
+}
+
+body[class*="is-page-"] .section .header .eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 1.5em;
+  height: 2px;
+  margin-right: 0.6em;
+  vertical-align: middle;
+  background-color: var(--page-accent);
+}
+
+body[class*="is-page-"] .section.is-accent-primary .header .eyebrow {
+  color: var(--page-accent);
+}
+
+/* --- HERO の配置の切り替え（PC のみ。スマホは全ページ「下・左寄せ」のまま）---
+   最終HERO画像が決まってから .hero-full に付ける */
+@media screen and (min-width: 768px) {
+  .hero-full.is-align-center {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .hero-full.is-align-center .hero-full_content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-full.is-align-center .hero-full_title::after,
+  .hero-full.is-align-center .hero-full_catch {
+    margin-inline: auto;
+  }
+
+  .hero-full.is-align-center :is(.hero-full_tags, .hero-full_links) {
+    justify-content: center;
+  }
+
+  .hero-full.is-align-center .hero-full_overlay {
+    background: radial-gradient(
+      ellipse at 50% 55%,
+      var(--_colors---core-color-tint--accent-primary-a90) 0%,
+      var(--_colors---core-color-tint--accent-primary-a50) 45%,
+      transparent 75%
+    );
+  }
+
+  .hero-full.is-align-right .hero-full_content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .hero-full.is-align-right .hero-full_title::after {
+    margin-left: auto;
+  }
+
+  .hero-full.is-align-right :is(.hero-full_tags, .hero-full_links) {
+    justify-content: flex-end;
+  }
+
+  .hero-full.is-align-right .hero-full_overlay {
+    background: linear-gradient(
+      to left,
+      var(--_colors---core-color-tint--accent-primary-a90) 0%,
+      var(--_colors---core-color-tint--accent-primary-a60) 40%,
+      transparent 75%
+    );
+  }
+
+  .hero-full.is-align-bottom {
+    align-items: flex-end;
+    padding-bottom: var(--_sizes---spacing--3x, 3rem);
+  }
+
+  .hero-full.is-align-bottom .hero-full_overlay {
+    background: linear-gradient(
+      to top,
+      var(--_colors---core-color-tint--accent-primary-a90) 0%,
+      var(--_colors---core-color-tint--accent-primary-a60) 40%,
+      transparent 70%
+    );
+  }
+}
+
+/* --- EXPERIENCES：そのほかの体験（追加9施設）---
+   エリアごとの小見出し・地図番号・所要時間と利用条件の行 */
+.more-exp_area,
+.menu_store {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  margin: var(--_sizes---spacing--2x, 2rem) 0 var(--_sizes---spacing--1x);
+  font-family: var(--font-ja);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--page-accent-deep);
+}
+
+.more-exp_area::before,
+.menu_store::before {
+  content: "";
+  width: 1.5em;
+  height: 2px;
+  background-color: var(--page-accent);
+}
+
+.more-exp_area:first-of-type,
+.menu_store:first-of-type {
+  margin-top: 0;
+}
+
+.more-exp_no {
+  display: inline-block;
+  margin-right: 0.5em;
+  font-family: var(--_typography---font--heading-font);
+  color: var(--page-accent-deep);
+}
+
+/* エリアの札（10/26：3列×3行に変更。色は園内マップのエリア色と同じ） */
+:root {
+  --area-w: #2A86C4;
+  --area-n: #3F8F4E;
+  --area-a: #D9702E;
+  --area-l: #7A57B8;
+}
+.more-exp_tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  width: fit-content;
+  margin: 0 0 0.75rem;
+  padding: 0.25em 0.8em;
+  border-radius: 999px;
+  background-color: color-mix(in srgb, var(--area) 12%, #fff);
+  color: var(--_colors---core-accent-color--accent-primary);
+  font-family: var(--font-ja);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.more-exp_tag::before {
+  content: "";
+  width: 0.6em;
+  height: 0.6em;
+  border-radius: 50%;
+  background-color: var(--area);
+}
+.more-exp_tag.is-w { --area: var(--area-w); }
+.more-exp_tag.is-n { --area: var(--area-n); }
+.more-exp_tag.is-a { --area: var(--area-a); }
+.more-exp_tag.is-l { --area: var(--area-l); }
+
+/* 並び：PC 3列／タブレット 2列／スマホ 1列（Webflow の tablet-1-col は使わない） */
+@media (min-width: 480px) and (max-width: 991px) {
+  .w-layout-grid.more-exp_grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 479px) {
+  .w-layout-grid.more-exp_grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+.more-exp_meta {
+  padding-left: 0.9em;
+  border-left: 2px solid var(--page-accent);
+  color: var(--_colors---text-color--text-secondary, inherit);
+}
+
+/* ========================================
+   ロゴ（MIRAFELIA・10/25 正式採用。マスターは docs/brand/svg）
+   - ヘッダー：PC は横組み・カタカナあり、767px 以下は横組み・カタカナなし（<picture> で切り替え）
+   - フッター：上下組み（紺地用）
+   - SVG の形・色は変えない。大きさだけを CSS で決める
+   ======================================== */
+.nav_logo-picture {
+  display: block;
+}
+
+.nav_logo-image {
+  display: block;
+  width: auto;
+  height: 48px;
+  max-width: 100%;
+}
+
+@media screen and (max-width: 767px) {
+  /* ロゴは縮ませない（文字が読めなくなるため）。代わりに PLAN YOUR VISIT ボタンを少し小さくする */
+  .nav_left {
+    flex: none;
+  }
+
+  .nav_logo-image {
+    height: 30px;
+  }
+
+  .nav_right .button {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    font-size: 0.8125rem;
+    white-space: nowrap;
+  }
+}
+
+.footer_logo-image {
+  display: block;
+  width: clamp(130px, 16vw, 180px);
+  height: auto;
+}
+
+/* 幅 374px 以下の小さいスマホ：ロゴとボタンをもう一段小さくして、横にはみ出さないようにする */
+@media screen and (max-width: 374px) {
+  .nav_logo-image {
+    height: 26px;
+  }
+
+  .nav_right .button {
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* --- DINING：メニューのカード（写真＋名前＋タグ＋説明＋富山の味）---
+   写真は 4:3。届くまでは is-placeholder の枠（「写真準備中」）を表示する */
+.menu_store span {
+  margin-left: 0.25em;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--_colors---text-color--text-secondary, inherit);
+}
+
+.menu-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.menu-card_media {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background-color: var(--_colors---core-neutral-color--neutral-secondary);
+}
+
+.menu-card_media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.menu-card_media.is-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, var(--_colors---core-neutral-color--neutral-secondary), #fff);
+}
+
+.menu-card_media.is-placeholder span {
+  font-size: 0.8125rem;
+  letter-spacing: 0.1em;
+  color: var(--_colors---text-color--text-secondary, inherit);
+}
+
+.menu-card_tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 0.6rem;
+  padding: 0;
+  list-style: none;
+}
+
+.menu-card_tag {
+  padding: 0.15em 0.7em;
+  border-radius: 999px;
+  background-color: var(--page-accent);
+  color: var(--_colors---core-accent-color--accent-primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.menu-card_origin {
+  padding-left: 0.9em;
+  border-left: 2px solid var(--page-accent);
+  color: var(--page-accent-deep);
+  font-weight: 500;
+}
+
+.menu_note {
+  margin-top: var(--_sizes---spacing--1-5x, 1.5rem);
+  color: var(--_colors---text-color--text-secondary, inherit);
+}
+
+/* 列の数：PC は 3列（SHOPS は 4列）／480〜991px は 2列／479px 以下は 1列。
+   Webflow の tablet-1-col は !important で1列にするので、menu_grid には付けない */
+@media screen and (min-width: 480px) and (max-width: 991px) {
+  .w-layout-grid.menu_grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* SHOPS：おすすめ商品（4列）。店名のタグは白地＋枠 */
+.menu-card_tag.is-store {
+  background-color: transparent;
+  border: 1px solid var(--page-accent-deep);
+  color: var(--page-accent-deep);
+}
+
+@media screen and (min-width: 992px) {
+  .w-layout-grid.menu_grid.is-4col {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .w-layout-grid.menu_grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* HOTEL：そのほかの客室のカード。InfoList を詰めて表示する */
+.room-card_info {
+  margin: 0 0 0.75rem;
+  font-size: 0.9375rem;
+}
+
+.room-card_info .info-list_row {
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+}
+
+.menu_store:not(:first-of-type) {
+  margin-top: var(--_sizes---spacing--3x, 3rem);
+}
+
+/* 大きな客室（FeatureRow）のすぐ後に来る小見出しは、上を広く空ける */
+.feature-row + .menu_store {
+  margin-top: var(--_sizes---spacing--4x, 4rem);
+}
+
+/* ========================================
+   TOP・PLAN：園内マップ（#park-map。PLAN は 10/28 追加）
+   - 中身は tools/build-park-map.py が docs/park-map-data.json から生成する
+   - エリアの色は、データの値を --pin で受け取る（配置基準図のエリア色）
+   - PC：地図（左）＋リスト（右・縦スクロール）／991px 以下：地図の下にリスト（横スクロール）
+   ======================================== */
+.park-map {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
+  gap: var(--_sizes---spacing--2x, 2rem);
+  align-items: start;
+  margin-top: var(--_sizes---spacing--2x, 2rem);
+}
+.park-map_figure { margin: 0; }
+.park-map_figure figcaption { text-align: left; }
+.park-map_stage {
+  position: relative;
+  aspect-ratio: 1000 / 800;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(22, 50, 74, 0.12);
+}
+.park-map_svg { display: block; width: 100%; height: 100%; }
+.park-map_svg text { font-family: inherit; text-anchor: middle; }
+.park-map_label { font-size: 15px; font-weight: 700; fill: #3E5A73; letter-spacing: 0.08em; }
+.park-map_label.is-far { fill: #6F8BA3; font-size: 14px; }
+.park-map_label.is-water { fill: #1F6E99; }
+.park-map_label.is-small { font-size: 12px; }
+.park-map_svg .park-map_area-label { text-anchor: start; font-size: 17px; font-weight: 700; }
+.park-map_svg .park-map_area-label.is-end { text-anchor: end; }
+.park-map_fac circle { fill: #fff; stroke: #5E7891; stroke-width: 1.5; }
+.park-map_fac text { font-size: 10px; font-weight: 700; fill: #3E5A73; }
+
+/* ピン（番号）：見た目は丸、押せる範囲は ::before で広げる */
+.park-map_pin {
+  position: absolute;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  padding: 0;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: var(--pin, var(--_colors---core-accent-color--accent-primary));
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(22, 50, 74, 0.35);
+  transition: transform 0.2s ease;
+}
+.park-map_pin::before { content: ""; position: absolute; inset: -7px; border-radius: 50%; }
+.park-map_pin.is-spot {
+  width: 28px; height: 28px; margin: -14px 0 0 -14px;
+  border-width: 2px;
+  background: var(--_colors---core-accent-color--accent-primary);
+  font-size: 12px;
+}
+.park-map_pin:hover, .park-map_pin.is-active { transform: scale(1.18); z-index: 2; }
+.park-map_pin.is-active { outline: 3px solid var(--_colors---core-accent-color--accent-secondary); outline-offset: 2px; }
+.park-map_pin:focus-visible { outline: 3px solid var(--_colors---core-accent-color--accent-secondary); outline-offset: 2px; }
+
+/* 凡例 */
+.park-map_legend {
+  display: flex; flex-wrap: wrap; gap: 0.4rem 1.1rem;
+  margin: 1rem 0 0; padding: 0; list-style: none;
+  font-size: 0.85rem; color: #3E5A73;
+}
+.park-map_legend li { display: flex; align-items: center; gap: 0.4em; }
+.park-map_legend i { width: 14px; height: 14px; border-radius: 50%; flex: none; }
+.park-map_legend i.is-fac {
+  display: grid; place-items: center; width: 20px; height: 20px;
+  border: 1.5px solid #5E7891; background: #fff;
+  font-style: normal; font-size: 10px; font-weight: 700;
+}
+.park-map_note { margin: 0.6rem 0 0; font-size: 0.8rem; color: #5E7891; }
+
+/* リスト */
+.park-map_panel {
+  max-height: min(78vh, 760px);
+  overflow-y: auto;
+  padding-right: 0.25rem;
+  overscroll-behavior: contain;
+}
+.park-map_list-title { margin: 0 0 0.6rem; font-size: 1rem; letter-spacing: 0.06em; }
+.park-map_list + .park-map_list-title { margin-top: 1.5rem; }
+.park-map_list { display: grid; gap: 0.6rem; margin: 0; padding: 0; list-style: none; }
+.park-map_item {
+  display: flex; gap: 0.8rem; align-items: flex-start;
+  padding: 0.85rem 1rem;
+  border: 2px solid transparent;
+  border-radius: 14px;
+  background: var(--_colors---core-color--neutral-lightest, #F2F3F5);
+  scroll-margin: 0.5rem;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.park-map_item:focus { outline: none; }
+.park-map_item.is-active { border-color: var(--pin, var(--_colors---core-accent-color--accent-primary)); background: #fff; }
+.park-map_badge {
+  display: grid; place-items: center; flex: none;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--pin); color: #fff; font-size: 12px; font-weight: 700;
+}
+.park-map_badge.is-spot { background: var(--_colors---core-accent-color--accent-primary); }
+.park-map_name { margin: 0; font-weight: 700; line-height: 1.4; }
+.park-map_name span { display: block; font-size: 0.75rem; font-weight: 400; color: #5E7891; }
+.park-map_text { margin: 0.3rem 0 0; font-size: 0.875rem; line-height: 1.6; }
+.park-map_more {
+  display: inline-flex; align-items: center; min-height: 48px;
+  font-size: 0.875rem; font-weight: 700;
+  color: var(--_colors---core-accent-color--accent-primary);
+}
+
+@media (max-width: 991px) {
+  .park-map { grid-template-columns: minmax(0, 1fr); }
+  .park-map_panel { max-height: none; overflow: visible; padding: 0; }
+  .park-map_list {
+    grid-auto-flow: column; grid-auto-columns: min(78%, 300px);
+    overflow-x: auto; scroll-snap-type: x mandatory;
+    padding-bottom: 0.5rem; overscroll-behavior-x: contain;
+  }
+  .park-map_item { scroll-snap-align: start; }
+}
+@media (max-width: 767px) {
+  .park-map_stage { border-radius: 16px; }
+  .park-map_pin { width: 26px; height: 26px; margin: -13px 0 0 -13px; border-width: 2px; font-size: 11px; }
+  .park-map_pin.is-spot { width: 22px; height: 22px; margin: -11px 0 0 -11px; font-size: 10px; }
+  .park-map_pin::before { inset: -5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .park-map_pin, .park-map_item { transition: none; }
+}
+
+/* ========================================
+   10/26 オーナー要望：節の見出しとフッターを小さく・詰める
+   - 節の見出し（heading_primary）：Webflow の h1 サイズ（PC 約90px）は説明文との差が大きすぎるので、
+     PC 56px〜スマホ 34px に。HERO の見出しは変えない
+   - フッター：上下の余白とロゴの周りを詰める（ロゴの幅は .footer_logo-image）
+   ======================================== */
+body .heading_primary {
+  font-size: clamp(2.125rem, 1.5rem + 2.4vw, 3.5rem);
+  line-height: 1.3;
+}
+
+body .footer {
+  padding-top: var(--_sizes---spacing--3x, 3rem);
+  padding-bottom: var(--_sizes---spacing--2x, 2rem);
+}
+body .footer .padding-vertical_large {
+  padding-top: var(--_sizes---spacing--2x, 2rem);
+  padding-bottom: var(--_sizes---spacing--2x, 2rem);
+}
+
+/* ========================================
+   PLAN YOUR VISIT（10/26 仮追加）：アクセスの図・モデルコース・公式SNS
+   ======================================== */
+/* アクセスの図：PC は横一列（駅 → パーク ← IC）、767px 以下は縦に並べる */
+.access-route {
+  margin: 0 0 var(--_sizes---spacing--2x, 2rem);
+  padding: var(--_sizes---spacing--2x, 2rem);
+  border-radius: 24px;
+  background-color: #F2F3F5;
+}
+.access-route_list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1.1fr) minmax(0, 1.2fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.access-route_node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  text-align: center;
+}
+.access-route_icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border: 2px solid var(--_colors---core-accent-color--accent-primary);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--_colors---core-accent-color--accent-primary);
+  font-weight: 700;
+}
+.access-route_name {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.access-route_node.is-park {
+  padding: 1.25rem 1rem 1rem;
+  border-radius: 20px;
+  background-color: var(--_colors---core-accent-color--accent-primary);
+  color: #fff;
+}
+.access-route_logo {
+  display: block;
+  width: min(140px, 100%);
+  height: auto;
+}
+/* 矢印（線＋三角）。パークに向かう向きにする */
+.access-route_link {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  padding-bottom: 1.25rem;
+  text-align: center;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+.access-route_link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 10px;
+  bottom: 0.4rem;
+  height: 2px;
+  background-color: var(--_colors---core-accent-color--accent-secondary);
+}
+.access-route_link::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: calc(0.4rem - 5px);
+  border: 6px solid transparent;
+  border-left: 10px solid var(--_colors---core-accent-color--accent-secondary);
+  border-right: 0;
+}
+.access-route_link.is-reverse::after { left: 10px; right: 0; }
+.access-route_link.is-reverse::before {
+  left: 0;
+  right: auto;
+  border-left: 0;
+  border-right: 10px solid var(--_colors---core-accent-color--accent-secondary);
+}
+.access-route_time {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--_colors---core-accent-color--accent-primary);
+}
+.access-route_note {
+  margin-top: 1.25rem;
+  font-size: 0.8125rem;
+  color: #5E7891;
+  text-align: left;
+}
+@media (max-width: 767px) {
+  .access-route { padding: 1.25rem; }
+  .access-route_list { grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
+  /* スマホ：駅 → パーク ← IC を、上から 駅・↓・パーク・↑・IC の順に */
+  .access-route_link { padding: 0.5rem 0; align-items: baseline; flex-direction: row; justify-content: center; gap: 0.75rem; }
+  .access-route_link::after { left: 50%; right: auto; top: 0; bottom: 10px; width: 2px; height: auto; transform: translateX(-1px); display: none; }
+  .access-route_link::before { display: none; }
+  .access-route_way::before { content: "↓ "; color: var(--_colors---core-accent-color--accent-primary); font-size: 1.25rem; font-weight: 700; }
+  .access-route_link.is-reverse .access-route_way::before { content: "↑ "; }
+  .access-route_icon { width: 52px; height: 52px; }
+  .access-route_logo { width: 120px; }
+}
+
+/* モデルコース */
+.course_tag {
+  width: fit-content;
+  margin: 0 0 0.75rem;
+  padding: 0.25em 0.8em;
+  border-radius: 999px;
+  background-color: var(--_colors---core-color-tint--accent-secondary-a20);
+  color: var(--_colors---core-accent-color--accent-primary);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+.course_list {
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+  border-left: 2px solid var(--_colors---core-color-tint--accent-primary-a20);
+}
+.course_list li {
+  position: relative;
+  margin: 0;
+  padding: 0 0 0.9rem 1.1rem;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+.course_list li::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  top: 0.45em;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--_colors---core-accent-color--accent-secondary);
+}
+.course_list time {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #5E7891;
+}
+.course_list a {
+  font-weight: 700;
+  color: var(--_colors---core-accent-color--accent-primary);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+/* 公式SNS */
+.sns_grid { margin: 0; padding: 0; list-style: none; }
+.sns_item { margin: 0; }
+/* ロゴマークの枠（48px）。各社の公式素材が届いたら中を <img> にする。届くまでは紺の丸に頭文字の仮マーク。
+   公式素材の色・形・比率は変えない（各社のガイドラインに従う） */
+.sns_icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 0.75rem;
+  border-radius: 12px;
+  background-color: var(--_colors---core-accent-color--accent-primary);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 700;
+  overflow: hidden;
+}
+.sns_icon:has(img) { background: none; border-radius: 0; }
+.sns_icon img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.sns_name {
+  margin: 0;
+  font-family: var(--_typography---font--heading-font);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+.sns_id {
+  margin: 0.25rem 0 0.75rem;
+  font-size: 0.875rem;
+  color: #5E7891;
+}
+
+/* 並び：PC 3列・4列／タブレット 2列／スマホ 1列（Webflow の tablet-1-col は使わない） */
+@media (min-width: 480px) and (max-width: 991px) {
+  .w-layout-grid.course_grid,
+  .w-layout-grid.sns_grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 479px) {
+  .w-layout-grid.course_grid,
+  .w-layout-grid.sns_grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ========================================
+   10/27 オーナー要望：節（section）の上下の余白を詰める（全ページ）
+   - Webflow の値：PC 128px／タブレット 112px／スマホ 80px／小さいスマホ 64px（上と下それぞれ）
+     → 節と節のあいだが PC で 256px 空き、スクロール中に何も見えない画面ができていた
+   - 新しい値（10/28 再調整）：PC 48px／タブレット 44px／スマホ 40px／小さいスマホ 36px
+   - custom.css は Webflow の CSS より先に読み込むので、:root:root で優先度を上げる
+   ======================================== */
+:root:root { --_sizes---section--section-padding-vertical: 3rem; }
+/* 991px 以下は、Webflow が body に値を入れ直すので、body 側も上書きする */
+@media screen and (max-width: 991px) { html body { --_sizes---section--section-padding-vertical: 2.75rem; } }
+@media screen and (max-width: 767px) { html body { --_sizes---section--section-padding-vertical: 2.5rem; } }
+@media screen and (max-width: 479px) { html body { --_sizes---section--section-padding-vertical: 2.25rem; } }
+
+/* 10/28 オーナー要望：もう一段詰める（節の上下＝フッターの上余白 48px 程度）。見出しのまとまり（.header）と中身のあいだも詰める */
+.section .header { margin-bottom: 2rem; }
+@media screen and (max-width: 767px) { .section .header { margin-bottom: 1.5rem; } }
+
+/* EXPERIENCES：LANDMARK（L2 TATEYAMA WHEEL）。3×3 の下に横いっぱいのカード（PC：左に写真・右に説明／スマホ：縦） */
+.landmark-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  margin-top: var(--_sizes---gap--md-gap, 2rem);
+  overflow: hidden;
+}
+.landmark-card > .card_body { align-self: center; }
+.landmark-card_eyebrow {
+  margin: 0 0 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--page-accent-deep);
+}
+.landmark-card_sub {
+  margin-left: 0.6em;
+  font-size: 0.8em;
+  font-weight: 400;
+  color: var(--_colors---text-color--text-secondary, inherit);
+}
+/* 写真：外観（大）の右下に、ゴンドラからの眺め（小）を重ねる */
+.landmark-card_media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+.landmark-card_main {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.landmark-card_sub-image {
+  position: absolute;
+  right: 4%;
+  bottom: 5%;
+  width: 38%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: 4px solid #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(22, 50, 74, 0.3);
+}
+@media (max-width: 767px) {
+  .landmark-card { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* SHOWS：ショーの動画（10/28）。一時停止ボタンは HERO と同じ見た目（.hero-full_toggle）を使う */
+.show-video_media {
+  display: block;
+  background-color: var(--_colors---core-accent-color--accent-primary);
+}
+
+/* ========================================
+   10/28 PLAN YOUR VISIT のアイコン（オーナー作成・48×48・線 2px・紺）
+   - TOP：PLAN の各節へのリンクカード（.card-link の浮く動きを使う）。アイコンの下にゴールドの短い線
+   - PLAN：節の見出しの頭にアイコン
+   ======================================== */
+.plan-card .card_body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.plan-card_icon {
+  display: block;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 0.5rem;
+}
+
+.plan-card .heading_small {
+  position: relative;
+  padding-top: 0.75rem;
+}
+
+.plan-card .heading_small::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1.5rem;
+  height: 2px;
+  background-color: var(--_colors---core-accent-color--accent-secondary);
+}
+
+.plan-card_value {
+  margin-top: auto;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--_colors---core-color-tint--accent-primary-a10);
+  font-weight: 500;
+}
+
+.plan-heading_icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  min-width: 40px;
+  min-height: 40px;
+  margin-right: 0.25em;
+  vertical-align: middle;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plan-card.card-link,
+  .plan-card.card-link:hover {
+    transform: none;
+    transition: none;
+  }
+}
+
+/* 10/28 メニュー・グッズの価格（docs/prices-2050.md）。名前のすぐ下に、ページの濃い色で */
+.menu-card_price {
+  margin: -0.25rem 0 0.6rem;
+  color: var(--page-accent-deep);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.menu_note.is-price {
+  margin-top: 0.5rem;
+}
+
+/* 10/28 オーナー：本文を大きく（Webflow の text-sm は .88rem ≒ 14px）。PC 16px／767px 以下 15px。
+   Webflow はブレイクポイントごとに body で変数を置き直すので、html body で上書きする */
+html body {
+  --_typography---text-sm--sm-text-size: 1rem;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+@media screen and (max-width: 767px) {
+  html body {
+    --_typography---text-sm--sm-text-size: 0.9375rem;
+    font-size: 0.9375rem;
+  }
+}
+
+.park-map_text,
+.park-map_item {
+  font-size: var(--_typography---text-sm--sm-text-size);
+}
+
+/* 10/28 園内マップ：一覧が横に並ぶ幅（991px 以下）で「横にスワイプ →」を見出しの右に出す */
+@media (max-width: 991px) {
+  .park-map_list-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+  }
+
+  .park-map_list-title::after {
+    content: "横にスワイプ →";
+    content: "横にスワイプ →" / "";
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: #5E7891;
+  }
+}
+
+/* 10/28 EXPERIENCES：9施設の利用条件（身長・年齢など大事な情報）を少し濃く（60% → 約78%） */
+.more-exp_meta {
+  color: color-mix(in srgb, var(--_colors---text-color--text-primary) 78%, transparent);
+}
+
+/* 10/29 見出しの折り返し：言葉の途中で切らず、HTML の <wbr> の位置だけで折り返す。
+   入りきらない長い語だけは、はみ出さないように途中で折る（overflow-wrap） */
+.menu-card .heading_small,
+.heading_primary {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+/* SHOPS の4列（992px 以上）はカードが細いので、商品名を少し小さく（22.5px → 18px） */
+@media screen and (min-width: 992px) {
+  .menu_grid.is-4col .menu-card .heading_small {
+    font-size: 1.125rem;
+  }
+}
+
+/* DINING の店名の横の種類（食事／軽食・スイーツ・ドリンク）は、479px 以下では店名の下に */
+@media screen and (max-width: 479px) {
+  .menu_store {
+    flex-wrap: wrap;
+    row-gap: 0.15em;
+  }
+
+  .menu_store span {
+    flex-basis: 100%;
+    margin-left: 0;
+    padding-left: 2.3625rem; /* 線（1.5em）＋すき間（0.6em）。店名の文字の頭にそろえる */
+  }
+}
+
+/* 10/29 SNS の公式ロゴ（images/sns/）。ロゴの周りに余白をとり、4つの見た目の大きさをそろえる。
+   検索の案内（.sns_id）を外したので、名前と説明の間をあける */
+.sns_icon:has(img) {
+  padding: 4px;
+}
+
+.sns_icon.is-line:has(img) {
+  padding: 2px;
+}
+
+.sns_name {
+  margin-bottom: 0.5rem;
+}
+
+/* TikTok のロゴは素材自体に余白があるので、枠いっぱいに。X は黒いロゴを少し小さく */
+.sns_icon.is-tiktok:has(img) {
+  padding: 0;
+}
+
+.sns_icon.is-x:has(img) {
+  padding: 7px;
+}
